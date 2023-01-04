@@ -6,5 +6,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// Field is the predicate function for entfield builders.
+type Field func(*sql.Selector)
+
 // User is the predicate function for user builders.
 type User func(*sql.Selector)

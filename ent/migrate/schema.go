@@ -8,11 +8,21 @@ import (
 )
 
 var (
+	// FieldsColumns holds the columns for the "fields" table.
+	FieldsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+	}
+	// FieldsTable holds the schema information for the "fields" table.
+	FieldsTable = &schema.Table{
+		Name:       "fields",
+		Columns:    FieldsColumns,
+		PrimaryKey: []*schema.Column{FieldsColumns[0]},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "age", Type: field.TypeInt},
-		{Name: "name", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
@@ -22,6 +32,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		FieldsTable,
 		UsersTable,
 	}
 )

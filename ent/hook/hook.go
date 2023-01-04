@@ -6,8 +6,20 @@ import (
 	"context"
 	"fmt"
 
-	"entgo.io/bug/ent"
+	"github.com/jdhenke/bug-3208/ent"
 )
+
+// The FieldFunc type is an adapter to allow the use of ordinary
+// function as Field mutator.
+type FieldFunc func(context.Context, *ent.FieldMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FieldFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FieldMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FieldMutation", m)
+}
 
 // The UserFunc type is an adapter to allow the use of ordinary
 // function as User mutator.
@@ -15,11 +27,10 @@ type UserFunc func(context.Context, *ent.UserMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
 func (f UserFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.UserMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
+	if mv, ok := m.(*ent.UserMutation); ok {
+		return f(ctx, mv)
 	}
-	return f(ctx, mv)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserMutation", m)
 }
 
 // Condition is a hook condition function.
