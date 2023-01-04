@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+
 	entfield "github.com/jdhenke/bug-3208/ent/field"
 	"github.com/jdhenke/bug-3208/ent/user"
 )
